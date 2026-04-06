@@ -4,9 +4,36 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 import { Role } from '../models/User';
 
 // Get Records with filtering and pagination
+/**
+ * @swagger
+ * /api/records:
+ *   get:
+ *     summary: Get all financial records
+ *     tags: [Records]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search by notes
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum: [Income, Expense]
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of records
+ */
 export const getRecords = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { type, category, startDate, endDate, limit = '50', page = '1', search } = req.query;
+        const { type, category, startDate, endDate, limit = '50', page = '1', search } = req.query as any;
 
         const query: any = { isDeleted: false };
 
@@ -60,6 +87,31 @@ export const getRecordById = async (req: AuthRequest, res: Response, next: NextF
 };
 
 // Create record
+/**
+ * @swagger
+ * /api/records:
+ *   post:
+ *     summary: Create a new record
+ *     tags: [Records]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [amount, type, category, date]
+ *             properties:
+ *               amount: { type: number }
+ *               type: { type: string, enum: [Income, Expense] }
+ *               category: { type: string }
+ *               date: { type: string, format: date }
+ *               notes: { type: string }
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 export const createRecord = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         const record = new FinancialRecord({

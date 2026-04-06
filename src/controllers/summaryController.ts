@@ -2,9 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import FinancialRecord, { RecordType } from '../models/FinancialRecord';
 import { AuthRequest } from '../middlewares/authMiddleware';
 
+/**
+ * @swagger
+ * /api/summary:
+ *   get:
+ *     summary: Get dashboard summary analytics
+ *     tags: [Summary]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Summary data
+ */
 export const getDashboardSummary = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const { startDate, endDate } = req.query;
+        const { startDate, endDate } = req.query as any;
 
         const matchStage: any = {};
         if (startDate || endDate) {

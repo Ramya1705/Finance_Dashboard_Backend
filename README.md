@@ -1,5 +1,10 @@
 # Finance Dashboard Backend
 
+## 🚀 Live Demo
+- **API Documentation (Swagger)**: [https://finance-dashboard-backend-jrwv.onrender.com/api-docs/](https://finance-dashboard-backend-jrwv.onrender.com/api-docs/)
+- **API Base URL**: `https://finance-dashboard-backend-jrwv.onrender.com`
+- **Health Status**: [https://finance-dashboard-backend-jrwv.onrender.com/api/health](https://finance-dashboard-backend-jrwv.onrender.com/api/health)
+
 ## Overview
 A robust Node.js, Express, and MongoDB backend for managing financial records with Role-Based Access Control (RBAC).
 

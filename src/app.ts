@@ -35,11 +35,17 @@ app.use('/api/users', userRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/summary', summaryRoutes);
 
+import { dbStatus } from './config/db';
+
 app.get('/api/health', (req: Request, res: Response) => {
     const states = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+    const dbState = mongoose.connection.readyState;
+    
     res.json({
         status: 'OK',
-        database: states[mongoose.connection.readyState],
+        database: states[dbState],
+        error: dbStatus.lastError,
+        readyState: dbState,
         timestamp: new Date().toISOString()
     });
 });

@@ -32,6 +32,15 @@ const options: swaggerJsdoc.Options = {
 const swaggerSpec = swaggerJsdoc(options);
 
 export const setupSwagger = (app: Express) => {
+    // Swagger UI
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+    // Raw JSON spec (for Postman/Redocly)
+    app.get('/swagger.json', (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(swaggerSpec);
+    });
+
     console.log('Swagger documentation available at http://localhost:5000/api-docs');
+    console.log('Raw API spec available at http://localhost:5000/swagger.json');
 };

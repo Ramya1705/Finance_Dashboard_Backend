@@ -126,7 +126,38 @@ export const createRecord = async (req: AuthRequest, res: Response, next: NextFu
     }
 };
 
-// Update record
+/**
+ * @swagger
+ * /api/records/{id}:
+ *   put:
+ *     summary: Update a financial record (Admin Only)
+ *     tags: [Records]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount: { type: number }
+ *               type: { type: string, enum: [Income, Expense] }
+ *               category: { type: string }
+ *               date: { type: string, format: date }
+ *               notes: { type: string }
+ *     responses:
+ *       200:
+ *         description: Updated
+ *       404:
+ *         description: Not found
+ */
 export const updateRecord = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         const record = await FinancialRecord.findById(req.params.id);
@@ -148,7 +179,26 @@ export const updateRecord = async (req: AuthRequest, res: Response, next: NextFu
     }
 };
 
-// Delete record
+/**
+ * @swagger
+ * /api/records/{id}:
+ *   delete:
+ *     summary: Soft delete a record (Admin Only)
+ *     tags: [Records]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Deleted
+ *       404:
+ *         description: Not found
+ */
 export const deleteRecord = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         const record = await FinancialRecord.findOne({ _id: req.params.id, isDeleted: false });

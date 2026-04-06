@@ -1,7 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
-import User from '../models/User';
-
-// Get all users
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: List all users (Admin Only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search by name or email
+ *     responses:
+ *       200:
+ *         description: List of users
+ */
 export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { search } = req.query;
@@ -35,7 +49,36 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
-// Update user
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   put:
+ *     summary: Update a user (Admin Only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name: { type: string }
+ *               role: { type: string, enum: [VIEWER, ANALYST, ADMIN] }
+ *               status: { type: string, enum: [ACTIVE, INACTIVE] }
+ *     responses:
+ *       200:
+ *         description: Updated
+ *       404:
+ *         description: Not found
+ */
 export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const user = await User.findById(req.params.id);
@@ -55,7 +98,26 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     }
 };
 
-// Delete user
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   delete:
+ *     summary: Soft delete a user (Admin Only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Deleted
+ *       404:
+ *         description: Not found
+ */
 export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const user = await User.findOne({ _id: req.params.id, isDeleted: false });

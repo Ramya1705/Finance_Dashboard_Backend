@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db';
 import { errorHandler } from './middlewares/errorHandler';
@@ -33,6 +34,15 @@ app.use('/api/auth', authLimiter, authRoutes); // Apply stricter rate limiting t
 app.use('/api/users', userRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/summary', summaryRoutes);
+
+app.get('/api/health', (req: Request, res: Response) => {
+    const states = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+    res.json({
+        status: 'OK',
+        database: states[mongoose.connection.readyState],
+        timestamp: new Date().toISOString()
+    });
+});
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Finance Dashboard API is running...');

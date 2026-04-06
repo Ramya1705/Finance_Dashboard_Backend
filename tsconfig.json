@@ -3,6 +3,7 @@
     "target": "ES2022",
     "module": "Node16",
     "moduleResolution": "Node16",
+    "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,8 +13,7 @@
     "ignoreDeprecations": "6.0"
   },
   "include": [
-    "src/**/*",
-    "tests/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",

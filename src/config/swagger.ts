@@ -12,6 +12,10 @@ const options: swaggerJsdoc.Options = {
         },
         servers: [
             {
+                url: 'https://finance-dashboard-backend-jrwv.onrender.com',
+                description: 'Live Production server',
+            },
+            {
                 url: 'http://localhost:5000',
                 description: 'Development server',
             },
